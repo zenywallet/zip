@@ -11,8 +11,8 @@ else:
 
 type
   Uint* = int32
-  Ulong* = uint32
-  Ulongf* = uint32
+  Ulong* = int
+  Ulongf* = int
   Pulongf* = ptr Ulongf
   ZOffT* = int32
   Pbyte* = cstring
@@ -236,7 +236,7 @@ proc compress*(sourceBuf: cstring; sourceLen: int; level=Z_DEFAULT_COMPRESSION; 
   of Z_VERSION_ERROR: raise newException(ZlibStreamError, "zlib version mismatch!")
   else: raise newException(ZlibStreamError, "Unkown error(" & $status & ") : " & $z.msg)
 
-  let space = deflateBound(z, sourceLen.Ulong)
+  let space = deflateBound(z, sourceLen)
   var compressed = newString(space)
   z.next_in = sourceBuf
   z.avail_in = sourceLen.Uint
